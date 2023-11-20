@@ -1,9 +1,12 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 class ATM {
     private static final String USER_ID = "34512"; // predefined user id
     private static final String USER_PIN = "0921"; // predefined user pin
     private double balance; // current balance
+
+    HashMap<String, Double> history = new HashMap<>();
 
     public static void main(String[] args) {
         ATM atm = new ATM();
@@ -68,7 +71,9 @@ class ATM {
 
     public void viewTransactionHistory() {
         System.out.println("Transaction History:");
-        // implementation of transaction history
+        for (HashMap.Entry<String, Double> entry : history.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 
     public void withdraw(double amount) {
@@ -79,12 +84,14 @@ class ATM {
         } else {
             System.out.println("Insufficient funds.");
         }
+        history.put("Amount Withdrawn: ", amount);
     }
 
     public void deposit(double amount) {
         balance += amount;
         System.out.println("$" + amount + " deposited successfully.");
         System.out.println("New balance: $" + balance);
+        history.put("Amount Deposited: ", amount);
     }
 
     public void transfer(double amount, String recipient) {
@@ -95,5 +102,6 @@ class ATM {
         } else {
             System.out.println("Insufficient funds.");
         }
+        history.put("Amount Transfer: ", amount);
     }
 }
